@@ -10,3 +10,12 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/public/css
+/public/js
+/public/fonts
+/public/images
+/public/img
+/resources/css
+/resources/fonts
+Dockerfile
+.dockerignore
