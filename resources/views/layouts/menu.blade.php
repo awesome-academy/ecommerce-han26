@@ -17,7 +17,7 @@
                                 <li><a href=""><!-- Category level 2--></a></li>
                             </ul>
                             <div class="single-mega cn-col-4">
-                                <img src="{{ asset('img/bg-img/bg-6.jpg') }}" alt="">
+                                <img src="{{ asset(config('constants.background_imgs_dir') . 'bg-6.jpg') }}" alt="">
                             </div>
                         </div>
                     </li>
@@ -67,5 +67,4 @@
             <a href="#" id="essenceCartBtn"><img src="{{ asset(config('constants.fixed_imgs_dir') . 'bag.svg') }}" alt=""> <span><!-- Number of product types --></span></a>
         </div>
     </div>
-
 </div>

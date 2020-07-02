@@ -1,0 +1,20 @@
+<?php
+return [
+    'page_header' => 'Cửa Hàng',
+    'slide_header' => 'Danh mục',
+    'filter_title' => 'Lọc',
+    'price_slider_title' => 'Giá',
+    'range_slider' => 'Khoảng giá: ',
+    'color_picker' => 'Màu',
+    'brand' => 'Thương hiệu',
+    'products_found' => 'sản phẩm tìm thấy',
+    'sort_by' => 'Sắp xếp theo:',
+    'highest_rated' => 'Đánh giá cao',
+    'newest' => 'Mới nhất',
+    'high_to_low' => 'Giá: Cao tới Thấp',
+    'low_to_high' => 'Gía: Thấp tới Cao',
+    'new_tag' => 'Mới',
+    'add_to_cart' => 'Thêm vào giỏ',
+    'size' => 'Kích cỡ: ',
+    'color' => 'Màu sắc: ',
+];

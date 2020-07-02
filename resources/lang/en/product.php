@@ -1,0 +1,20 @@
+<?php
+return [
+    'page_header' => 'Shop',
+    'slide_header' => 'Catagories',
+    'filter_title' => 'Filter by',
+    'price_slider_title' => 'Price',
+    'range_slider' => 'Range: ',
+    'color_picker' => 'Color',
+    'brand' => 'Brands',
+    'products_found' => 'products found',
+    'sort_by' => 'Sort by:',
+    'highest_rated' => 'Highest Rated',
+    'newest' => 'Newest',
+    'high_to_low' => 'Price: High to Low',
+    'low_to_high' => 'Price: Low to High',
+    'new_tag' => 'New',
+    'add_to_cart' => 'Add to Cart',
+    'size' => 'Size: ',
+    'color' => 'Color: ',
+];

@@ -356,8 +356,8 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
             loop: true,
             nav: true,
             navText: [
-                "<img src='img/core-img/long-arrow-left.svg' alt=''>",
-                "<img src='img/core-img/long-arrow-right.svg' alt=''>"
+                "<img src='/img/core-img/long-arrow-left.svg' alt=''>",
+                "<img src='/img/core-img/long-arrow-right.svg' alt=''>"
             ],
             dots: false,
             autoplay: true,
