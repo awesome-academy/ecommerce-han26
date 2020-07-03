@@ -73,9 +73,9 @@
                     <div class="popular-products-slides owl-carousel">
                         <div class="single-product-wrapper">
                             <div class="product-img">
-                                <img src="{{ asset('img/product-img/product-3.jpg') }}" alt="">
+                                <img src="{{ asset(config('constants.temp_product_imgs_dir') . 'product-3.jpg') }}" alt="">
                                 <!-- Hover Thumb -->
-                                <img class="hover-img" src="{{ asset('img/product-img/product-4.jpg') }}" alt="">
+                                <img class="hover-img" src="{{ asset(config('constants.temp_product_imgs_dir') . 'product-4.jpg') }}" alt="">
                                 <div class="product-badge new-badge">
                                     <span>{{ trans('home.new_product') }}</span>
                                 </div>

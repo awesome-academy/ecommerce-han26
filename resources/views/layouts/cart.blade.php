@@ -7,7 +7,7 @@
         <div class="cart-list">
             <div class="single-cart-item">
                 <a href="#" class="product-image">
-                    <img src="{{ asset('img/product-img/product-1.jpg') }}" class="cart-thumb" alt="">
+                    <img src="{{ asset(config('constants.temp_product_imgs_dir') . 'product-1.jpg') }}" class="cart-thumb" alt="">
                     <div class="cart-item-desc">
                         <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
                         <span class="badge"><!-- Brand name --></span>
