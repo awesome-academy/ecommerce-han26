@@ -17,5 +17,3 @@ yarn-error.log
 /public/img
 /resources/css
 /resources/fonts
-Dockerfile
-.dockerignore

@@ -17,12 +17,13 @@
             <div class="col-12 col-md-4 col-lg-3">
                 <div class="shop_sidebar_area">
                     <div class="widget catagory mb-50">
-                    <h6 class="widget-title mb-30">{{ trans('product.slide_header') }}</h6>
+                        <h6 class="widget-title mb-30">{{ trans('product.slide_header') }}</h6>
                         <div class="catagories-menu">
                             <ul id="menu-content2" class="menu-content collapse show">
                                 <li data-toggle="collapse" data-target="#clothing">
                                     <a href="#"><!-- Category level 1 --></a>
-                                    <ul class="sub-menu collapse show" id="clothing"> <!-- 'show' class make submenu collapse -->
+                                    <ul class="sub-menu collapse show" id="clothing">
+                                        <!-- 'show' class make submenu collapse -->
                                         <li><a href="#"><!-- Category level 2 --></a></li>
                                     </ul>
                                 </li>
@@ -34,7 +35,7 @@
                         <p class="widget-title2 mb-30">{{ trans('product.price_slider_title') }}</p>
                         <div class="widget-desc">
                             <div class="slider-range">
-                                <div data-min="49" data-max="360" data-unit="$" class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" data-value-min="49" data-value-max="360" data-label-result="Range:">
+                                <div data-min="49" data-max="360" data-unit="$" class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" data-value-min="49" data-value-max="360" data-label-result="{{ trans('product.range_slider') }}">
                                     <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
                                     <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
                                     <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
@@ -44,7 +45,6 @@
                         </div>
                     </div>
                     <div class="widget color mb-50">
-                        <!-- Widget Title 2 -->
                         <p class="widget-title2 mb-30">{{ trans('product.color_picker') }}</p>
                         <div class="widget-desc">
                             <ul class="d-flex">
@@ -62,7 +62,6 @@
                         </div>
                     </div>
                     <div class="widget brands mb-50">
-                        <!-- Widget Title 2 -->
                         <p class="widget-title2 mb-30">{{ trans('product.brand') }}</p>
                         <div class="widget-desc">
                             <ul>
@@ -72,14 +71,13 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-12 col-md-8 col-lg-9">
                 <div class="shop_grid_product_area">
                     <div class="row">
                         <div class="col-12">
                             <div class="product-topbar d-flex align-items-center justify-content-between">
                                 <div class="total-products">
-                                    <p><span><!-- Total products found --></span> {{ trans('product.products_found') }}</p>
+                                    <p><span></span> {{ trans('product.products_found') }}</p>
                                 </div>
                                 <div class="product-sorting d-flex">
                                     <p>{{ trans('product.sort_by') }}</p>
@@ -96,43 +94,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <!-- Single Product -->
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="single-product-wrapper">
-                                <div class="product-img">
-                                    <img src="{{ asset(config('constants.temp_product_imgs_dir') . 'product-1.jpg') }}" alt="">
-                                    <img class="hover-img" src="{{ asset(config('constants.temp_product_imgs_dir') . 'product-2.jpg') }}" alt="">
-
-                                    <div class="product-badge offer-badge">
-                                    <span><!-- Discount percents --></span>
-                                    </div>
-                                    <div class="product-badge new-badge">
-                                        <span>{{ trans('product.new_tag') }}</span>
-                                    </div>
-                                    <div class="product-favourite">
-                                        <a href="#" class="favme fa fa-heart"></a>
-                                    </div>
-                                </div>
-
-                                <div class="product-description">
-                                    <span><!-- Brand name --></span>
-                                    <a href="single-product-details.html">
-                                        <h6><!-- Product name --></h6>
-                                    </a>
-                                    <p class="product-price"><span class="old-price"><!-- Previous price --></span> <!-- Price --></p>
-
-                                    <div class="hover-content">
-                                        <div class="add-to-cart-btn">
-                                            <a href="#" class="btn essence-btn">{{ trans('product.add_to_cart') }}</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="productList" class="row"></div>
                 </div>
-                <!-- Pagination -->
                 <nav aria-label="navigation">
                     <ul class="pagination mt-50 mb-70">
                         <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li>
