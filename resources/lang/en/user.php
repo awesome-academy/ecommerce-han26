@@ -28,4 +28,10 @@ return [
     'bank' => 'direct bank transfer',
     'lorem' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et diam eget diam aliquet vulputate eget vestibulum dolor. Ut pellentesque purus quam, non molestie tortor varius sed. Pellentesque in orci quis neque eleifend congue. Nam pellentesque dolor elit, eu pretium felis mattis sed. Proin vehicula elit sodales arcu dictum, in finibus dolor tincidunt. Aenean nisl nisl, luctus quis lobortis vitae, ultrices et diam. Phasellus vitae ipsum feugiat, facilisis erat sed, lobortis felis.',
     'order_button' => 'place order',
+    'login' => 'Login',
+    'register' => 'Register',
+    'username' => 'Username',
+    'password' => 'Password',
+    'confirm_password' => 'Confirm password',
+    'remember_me' => 'Remember me',
 ];
