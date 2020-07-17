@@ -9,22 +9,19 @@
         </div>
     </div>
     <div class="single_product_desc clearfix">
-        <span><!-- Brand name --></span>
+        <span id="brandName"></span>
         <a href="#">
-            <h2><!-- Product name --></h2>
+            <h2 id="productName"></h2>
         </a>
-        <p class="product-price"><span class="old-price"><!-- Old price --></span>  </p> <!-- Price --><p class="product-desc"><!-- Description --></p>
-
-        <!-- Form -->
+        <p class="product-price" id="productPrice"></p>
+        <p class="product-desc" id="productDesc"></p>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border text-secondary" role="status" id="spinner"></div>
+        </div>
         <form class="cart-form clearfix" method="post">
-            <!-- Select Box -->
             <div class="select-box d-flex mt-50 mb-30">
-                <select name="select" id="productSize" class="mr-5">
-                    <option value="value">{{ trans('product.size') }}<!-- Size --></option>
-                </select>
-                <select name="select" id="productColor">
-                    <option value="value">{{ trans('product.color') }}<!-- Color --></option>
-                </select>
+                <select name="select" class="mr-5"></select>
+                <select name="select"></select>
             </div>
             <div class="cart-fav-box d-flex align-items-center">
                 <button type="submit" name="addtocart" value="5" class="btn essence-btn">{{ trans('product.add_to_cart') }}</button>

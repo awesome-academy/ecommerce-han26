@@ -17,4 +17,7 @@ return [
     'add_to_cart' => 'Thêm vào giỏ',
     'size' => 'Kích cỡ: ',
     'color' => 'Màu sắc: ',
+    'reset_filter' => 'Làm mới bộ lọc',
+    'zero_products' => '0',
+    'page_one' => '1',
 ];

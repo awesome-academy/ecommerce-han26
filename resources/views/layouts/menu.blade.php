@@ -12,10 +12,6 @@
                 <ul>
                     <li><a href="#">{{ trans('navigation.menu_1') }}</a>
                         <div class="megamenu">
-                            <ul class="single-mega cn-col-4">
-                                <li class="title"><!-- Category level 1 --></li>
-                                <li><a href=""><!-- Category level 2--></a></li>
-                            </ul>
                             <div class="single-mega cn-col-4">
                                 <img src="{{ asset(config('constants.background_imgs_dir') . 'bg-6.jpg') }}" alt="">
                             </div>
@@ -40,12 +36,6 @@
         </div>
     </nav>
     <div class="header-meta d-flex clearfix justify-content-end">
-        <div class="search-area">
-            <form action="#" method="post">
-                <input type="search" name="search" id="headerSearch" placeholder="{{ trans('navigation.search_placeholder') }}">
-                <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-            </form>
-        </div>
         <div class="language-area">
             @if (config('app.locale') === 'vi')
             <a href="{{ route('language', ['language' => 'en']) }}">

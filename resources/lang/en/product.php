@@ -17,4 +17,7 @@ return [
     'add_to_cart' => 'Add to Cart',
     'size' => 'Size: ',
     'color' => 'Color: ',
+    'reset_filter' => 'Reset Filter',
+    'zero_products' => '0',
+    'page_one' => '1',
 ];
