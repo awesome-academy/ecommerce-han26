@@ -22,4 +22,13 @@ Route::group(['middleware' => 'locale'], function () {
         Route::get('list', 'ProductController@list');
         Route::get('detail', 'ProductController@detail');
     });
+
+    Route::prefix('user')->group(function () {
+        Route::get('/', 'UserController@index');
+        Route::get('/login', 'Auth\LoginController@showLoginForm');
+        Route::post('/login', 'Auth\LoginController@login')->name('login');
+        Route::get('/register', 'Auth\RegisterController@showRegisterForm');
+        Route::post('/register', 'Auth\RegisterController@register')->name('register');
+        Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+    });
 });
