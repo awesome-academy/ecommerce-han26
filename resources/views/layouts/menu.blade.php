@@ -19,8 +19,8 @@
                     </li>
                     <li><a href="#">{{ trans('navigation.menu_2') }}</a>
                         <ul class="dropdown">
-                            <li><a href="#">{{ trans('navigation.menu_2_item_1') }}</a></li>
-                            <li><a href="#">{{ trans('navigation.menu_2_item_2') }}</a></li>
+                            <li><a href="{{ route('home') }}">{{ trans('navigation.menu_2_item_1') }}</a></li>
+                            <li><a href="{{ route('shop') }}">{{ trans('navigation.menu_2_item_2') }}</a></li>
                             <li><a href="#">{{ trans('navigation.menu_2_item_3') }}</a></li>
                             <li><a href="#">{{ trans('navigation.menu_2_item_4') }}</a></li>
                             <li><a href="#">{{ trans('navigation.menu_2_item_5') }}</a></li>

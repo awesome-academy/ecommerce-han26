@@ -14,10 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::get('/products', 'ProductController@getAllProducts');
 Route::get('/product/{id}', 'ProductController@getProduct');
 Route::get('/categories', 'ProductController@getAllCategories');
+Route::get('/ratings', 'ProductController@getLikedQuantity');
