@@ -21,12 +21,9 @@
                         <ul class="dropdown">
                             <li><a href="{{ route('home') }}">{{ trans('navigation.menu_2_item_1') }}</a></li>
                             <li><a href="{{ route('shop') }}">{{ trans('navigation.menu_2_item_2') }}</a></li>
-                            <li><a href="#">{{ trans('navigation.menu_2_item_3') }}</a></li>
-                            <li><a href="#">{{ trans('navigation.menu_2_item_4') }}</a></li>
-                            <li><a href="#">{{ trans('navigation.menu_2_item_5') }}</a></li>
-                            <li><a href="#">{{ trans('navigation.menu_2_item_6') }}</a></li>
-                            <li><a href="#">{{ trans('navigation.menu_2_item_7') }}</a></li>
-                            <li><a href="#">{{ trans('navigation.menu_2_item_8') }}</a></li>
+                            <li><a href="{{ route('login_view') }}">{{ trans('navigation.menu_2_item_3') }}</a></li>
+                            <li><a href="{{ route('register_view') }}">{{ trans('navigation.menu_2_item_4') }}</a></li>
+                            <li><a href="{{ route('logout') }}">{{ trans('navigation.menu_2_item_5') }}</a></li>
                         </ul>
                     </li>
                     <li><a href="#">{{ trans('navigation.menu_3') }}</a></li>
@@ -54,7 +51,7 @@
             <a href="#"><img src="{{ asset(config('constants.fixed_imgs_dir') . 'user.svg') }}" alt=""></a>
         </div>
         <div class="cart-area">
-            <a href="#" id="essenceCartBtn"><img src="{{ asset(config('constants.fixed_imgs_dir') . 'bag.svg') }}" alt=""> <span><!-- Number of product types --></span></a>
+            <a href="#" id="essenceCartBtn"><img src="{{ asset(config('constants.fixed_imgs_dir') . 'bag.svg') }}" alt=""> <span id="cartLength1"></span></a>
         </div>
     </div>
 </div>

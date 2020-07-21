@@ -24,9 +24,10 @@
                 <select name="select"></select>
             </div>
             <div class="cart-fav-box d-flex align-items-center">
-                <button type="submit" name="addtocart" value="5" class="btn essence-btn">{{ trans('product.add_to_cart') }}</button>
+                <button class="btn essence-btn" id="addToCartBtn">{{ trans('product.add_to_cart') }}</button>
+                <input type="number" class="product-quantity form-control ml-3 pr-0" value="0" min="0" id="cartQuantity">
                 <div class="product-favourite ml-4">
-                    <a href="#" class="favme fa fa-heart"></a>
+                    <a href="#" class="favme fa fa-heart" id="favoriteBtn"></a>
                 </div>
             </div>
         </form>

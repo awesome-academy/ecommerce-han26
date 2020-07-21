@@ -8,4 +8,5 @@ return [
     'higher_category_level' => 1,
     'like_rating' => 1,
     'dislike_rating' => 0,
+    'five_years_in_minutes' => 2628000,
 ];
