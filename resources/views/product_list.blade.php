@@ -19,15 +19,7 @@
                     <div class="widget catagory mb-50">
                         <h6 class="widget-title mb-30">{{ trans('product.slide_header') }}</h6>
                         <div class="catagories-menu">
-                            <ul id="menu-content2" class="menu-content collapse show">
-                                <li data-toggle="collapse" data-target="#clothing">
-                                    <a href="#"><!-- Category level 1 --></a>
-                                    <ul class="sub-menu collapse show" id="clothing">
-                                        <!-- 'show' class make submenu collapse -->
-                                        <li><a href="#"><!-- Category level 2 --></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            <ul id="menu-content2" class="menu-content collapse show"></ul>
                         </div>
                     </div>
                     <div class="widget price mb-50">
@@ -40,7 +32,7 @@
                                     <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
                                     <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
                                 </div>
-                                <div class="range-price">{{ trans('product.range_slider') }}<!-- $price - $price --></div>
+                                <div class="range-price">{{ trans('product.range_slider') }}</div>
                             </div>
                         </div>
                     </div>
@@ -64,10 +56,13 @@
                     <div class="widget brands mb-50">
                         <p class="widget-title2 mb-30">{{ trans('product.brand') }}</p>
                         <div class="widget-desc">
-                            <ul>
-                                <li><a href="#"><!-- Brand name --></a></li>
+                            <ul id="brand-filter">
+                                <li><a href="#"></a></li>
                             </ul>
                         </div>
+                    </div>
+                    <div class="widget brands mb-50">
+                        <a href="#" class="btn essence-btn" id="reset-filter">{{ trans('product.reset_filter') }}</a>
                     </div>
                 </div>
             </div>
@@ -77,7 +72,7 @@
                         <div class="col-12">
                             <div class="product-topbar d-flex align-items-center justify-content-between">
                                 <div class="total-products">
-                                    <p><span></span> {{ trans('product.products_found') }}</p>
+                                    <p><span>{{ trans('product.zero_products') }}</span> {{ trans('product.products_found') }}</p>
                                 </div>
                                 <div class="product-sorting d-flex">
                                     <p>{{ trans('product.sort_by') }}</p>
@@ -94,16 +89,16 @@
                             </div>
                         </div>
                     </div>
-                    <div id="productList" class="row"></div>
+                    <div id="productList" class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="spinner-border" role="status"></div>
+                        </div>
+                    </div>
                 </div>
                 <nav aria-label="navigation">
                     <ul class="pagination mt-50 mb-70">
                         <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li>
-                        <li class="page-item"><a class="page-link" href="#"><!-- 1 --></a></li>
-                        <li class="page-item"><a class="page-link" href="#"><!-- 2 --></a></li>
-                        <li class="page-item"><a class="page-link" href="#"><!-- 3 --></a></li>
-                        <li class="page-item"><a class="page-link" href="#"><!-- ... --></a></li>
-                        <li class="page-item"><a class="page-link" href="#"><!-- 21 --></a></li>
+                        <li class="page-item"><a class="page-link" href="#">{{ trans('product.page_one') }}</a></li>
                         <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li>
                     </ul>
                 </nav>

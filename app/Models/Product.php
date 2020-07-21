@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $hidden = ['pivot'];
+
     public function productDetails()
     {
         return $this->hasMany(ProductDetail::class);
@@ -23,6 +25,6 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'product_category');
     }
 }
