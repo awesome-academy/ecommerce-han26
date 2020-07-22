@@ -13,22 +13,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'locale'], function () {
+Route::middleware('locale')->group(function () {
     Route::get('/language/{language}', 'LanguageController@changeLanguage')->name('language');
 
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('user', 'UserController@index');
-    Route::prefix('product')->group(function () {
-        Route::get('list', 'ProductController@list');
-        Route::get('detail', 'ProductController@detail');
+    Route::get('/user', 'UserController@index');
+    Route::prefix('/product')->group(function () {
+        Route::get('/list', 'ProductController@list')->name('shop');
+        Route::get('/detail', 'ProductController@detail');
     });
 
-    Route::prefix('user')->group(function () {
+    Route::prefix('/user')->group(function () {
         Route::get('/', 'UserController@index');
         Route::get('/login', 'Auth\LoginController@showLoginForm');
         Route::post('/login', 'Auth\LoginController@login')->name('login');
         Route::get('/register', 'Auth\RegisterController@showRegisterForm');
         Route::post('/register', 'Auth\RegisterController@register')->name('register');
         Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+    });
+});
+
+Route::middleware('auth')->group(function () {
+    Route::prefix('/product')->group(function () {
+        Route::get('/rate/{id}', 'ProductController@rateProduct');
+        Route::get('/rated', 'ProductController@getLikedProducts');
     });
 });

@@ -31,7 +31,7 @@ class LoginController extends Controller
         if (Auth::attempt($credential, $remember)) {
             return response()->json([
                 'status' => 'login success',
-                'url' => session('url.intended', route('home')),
+                'url' => route('home'),
             ]);
         }
 
@@ -48,6 +48,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return redirect()->intended(route('home'));
+        return redirect()->route('home');
     }
 }
