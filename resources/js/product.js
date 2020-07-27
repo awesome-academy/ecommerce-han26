@@ -3,12 +3,8 @@ import path from 'path';
 
 (async () => {
     try {
-        const lang = document.getElementsByTagName('html')[0].lang || '';
-
-        const preventDefaultEvent = e => {
-            e.preventDefault();
-        };
-
+        const lang = document.getElementsByTagName('html')[0].lang || '',
+            productImageRootPath = path.resolve('img', 'product-img');
         // HIỂN THỊ MENU TRÊN THANH HEADER
 
         // số hàng và cột của menu
@@ -36,12 +32,12 @@ import path from 'path';
         const categories = await axios.get(path.resolve('api', 'categories'));
 
         // in ra với giới hạn là số hàng và số cột bên trên
-        categories.data.slice(0, rowSize).forEach(lv1Cate => {
+        categories.data.slice(0, rowSize).forEach((lv1Cate) => {
             categoryLevel1.innerText = lv1Cate[lang + '_name'];
 
             const categoryContainerClone = categoryContainer.cloneNode(true);
 
-            lv1Cate.categories.slice(0, columnSize).forEach(lv2Cate => {
+            lv1Cate.categories.slice(0, columnSize).forEach((lv2Cate) => {
                 categoryLevel2Name.innerText = lv2Cate[lang + '_name'];
                 categoryLevel2Name.href = `/product/list?category=${lv2Cate.id}`;
 
@@ -55,6 +51,144 @@ import path from 'path';
                 lastMegaMenuChild
             );
         });
+
+        // GIỎ HÀNG
+
+        const cartList = document.getElementById('cartList'),
+            cartItem = document.createElement('div'),
+            cartImageContainer = document.createElement('a'),
+            cartImage = document.createElement('img'),
+            cartDescriptionContainer = document.createElement('div'),
+            removeButtonContainer = document.createElement('span'),
+            removeButton = document.createElement('i'),
+            cartItemBrand = document.createElement('span'),
+            cartItemName = document.createElement('h6'),
+            cartItemSize = document.createElement('p'),
+            cartItemColor = document.createElement('p'),
+            cartItemPrice = document.createElement('p'),
+            cartItemQuantity = document.createElement('p'),
+            cartLength1 = document.getElementById('cartLength1'),
+            cartLength2 = document.getElementById('cartLength2'),
+            subTotal = document.getElementById('subTotal'),
+            deliFee = document.getElementById('deliFee'),
+            discount = document.getElementById('discount'),
+            totalPrice = document.getElementById('totalPrice');
+
+        cartItem.appendChild(cartImageContainer);
+        cartImageContainer.appendChild(cartImage);
+        cartImageContainer.appendChild(cartDescriptionContainer);
+        cartDescriptionContainer.appendChild(removeButtonContainer);
+        removeButtonContainer.appendChild(removeButton);
+        cartDescriptionContainer.appendChild(cartItemBrand);
+        cartDescriptionContainer.appendChild(cartItemName);
+        cartDescriptionContainer.appendChild(cartItemSize);
+        cartDescriptionContainer.appendChild(cartItemColor);
+        cartDescriptionContainer.appendChild(cartItemPrice);
+        cartDescriptionContainer.appendChild(cartItemQuantity);
+
+        cartItem.classList.add('single-cart-item');
+        cartImageContainer.classList.add('product-image');
+        cartImage.src = path.resolve(productImageRootPath, 'product-1.jpg');
+        cartImage.classList.add('cart-thumb');
+        cartImage.alt = '';
+        cartDescriptionContainer.classList.add('cart-item-desc');
+        removeButtonContainer.classList.add('product-remove');
+        removeButton.classList.add('fa', 'fa-close');
+        removeButton.setAttribute('aria-hidden', 'true');
+        cartItemBrand.classList.add('badge');
+        cartItemSize.classList.add('size');
+        cartItemColor.classList.add('color');
+        cartItemPrice.classList.add('price');
+        cartItemQuantity.classList.add('quantity');
+
+        let cartResponse = await axios.get(path.resolve('api', 'cart', 'get')),
+            cart = cartResponse.data;
+
+        const showCart = () => {
+            let sizeTitle, colorTitle;
+
+            cartList.innerHTML = '';
+            cartLength1.innerText = cart.length;
+            cartLength2.innerText = cart.length;
+            subTotal.innerText = `$${
+                Math.round(
+                    cart.reduce((price, item) => {
+                        return price + item.price;
+                    }, 0) * 100
+                ) / 100
+            }`;
+            deliFee.innerText = 'Free';
+            discount.innerText = '0%';
+            totalPrice.innerText = subTotal.innerText;
+            switch (lang) {
+                case 'vi':
+                    sizeTitle = 'Kích cỡ: ';
+                    colorTitle = 'Màu sắc: ';
+                    break;
+
+                default:
+                    sizeTitle = 'Size: ';
+                    colorTitle = 'Color: ';
+            }
+
+            cart.forEach((item) => {
+                cartImageContainer.href = path.resolve(
+                    'product',
+                    `detail?id=${item.product.id}`
+                );
+                cartItemBrand.innerText = item.product.brand;
+                cartItemName.innerText = item.product.name;
+                cartItemSize.innerText = sizeTitle + item.size;
+                cartItemColor.innerText = colorTitle + item.color;
+                cartItemPrice.innerText = `$${item.price}`;
+                cartItemQuantity.innerText = `Quantity: ${item.quantity}`;
+                removeButton.dataset.value = item.id;
+
+                const tempItem = cartItem.cloneNode(true);
+                cartList.appendChild(tempItem);
+            });
+
+            document
+                .querySelectorAll('.product-remove > .fa-close')
+                .forEach((btn) => {
+                    btn.addEventListener('click', async (e) => {
+                        e.preventDefault();
+                        const itemId = parseInt(e.target.dataset.value);
+
+                        cart = cart.reduce((newCart, cartItem) => {
+                            if (cartItem['id'] === itemId) {
+                                if (cartItem['quantity'] > 1) {
+                                    cartItem['quantity']--;
+
+                                    console.log(cart);
+
+                                    newCart.push(cartItem);
+
+                                    return newCart;
+                                }
+
+                                return newCart;
+                            }
+                            newCart.push(cartItem);
+
+                            return newCart;
+                        }, []);
+                        console.log(cart);
+
+                        showCart();
+
+                        axios.get(
+                            path.resolve(
+                                'api',
+                                'cart',
+                                'remove',
+                                btn.dataset.value
+                            )
+                        );
+                    });
+                });
+        };
+        showCart();
 
         // Chỉ chạy khi đường dẫn là "/product/list"
         if (window.location.pathname === path.resolve('product', 'list')) {
@@ -149,7 +283,6 @@ import path from 'path';
             oldPrice.classList.add('old-price');
             hoverContent.classList.add('hover-content');
             buttonContainer.classList.add('add-to-cart-btn');
-            button.href = '#';
             button.classList.add('btn', 'essence-btn');
 
             // i18n trong thẻ
@@ -179,7 +312,7 @@ import path from 'path';
                 ratings = ratingsResponse.data;
 
             // Đặt product price là min của các product detail
-            products.forEach(product => {
+            products.forEach((product) => {
                 product.price = product.product_details.length
                     ? product.product_details.reduce((min, curProduct) => {
                           return curProduct.price < min
@@ -193,7 +326,7 @@ import path from 'path';
                     thirtyDaysInMilliseconds;
 
                 product.categories = product.categories.map(
-                    category => category.id
+                    (category) => category.id
                 );
 
                 product.rating_total = ratings.reduce((total, rating) => {
@@ -232,7 +365,7 @@ import path from 'path';
                 byHighestRated,
                 byNewest,
                 highToLow,
-                lowToHigh
+                lowToHigh,
             ];
 
             sortedProducts.sort(byHighestRated);
@@ -253,15 +386,16 @@ import path from 'path';
                 productListContainer.innerHTML = '';
 
                 // hiển thị
-                productsPage.forEach(product => {
+                productsPage.forEach((product) => {
                     const productId = product.id;
 
                     productName.innerText = product.name;
-
+                    productNameContainer.href = `/product/detail?id=${productId}`;
                     priceContainer.innerHTML = '';
                     priceContainer.innerHTML += '$' + product.price;
                     brandName.innerText = product.brand;
                     newBadgeContainer.disabled = !product.is_new;
+                    button.href = `/product/detail?id=${productId}`;
                     if (showFavorite) {
                         favoriteButton.dataset.value = productId;
                     }
@@ -280,7 +414,7 @@ import path from 'path';
                         }
                         tempFavoriteButton.addEventListener(
                             'click',
-                            async e => {
+                            async (e) => {
                                 try {
                                     e.preventDefault();
                                     const response = await axios.get(
@@ -324,15 +458,15 @@ import path from 'path';
                     // trái tim (rate)
                     const favme = $('.favme');
 
-                    favme.on('click', function() {
+                    favme.on('click', function () {
                         $(this).toggleClass('active');
                     });
 
-                    favme.on('click touchstart', function() {
+                    favme.on('click touchstart', function () {
                         $(this).toggleClass('is_animating');
                     });
 
-                    favme.on('animationend', function() {
+                    favme.on('animationend', function () {
                         $(this).toggleClass('is_animating');
                     });
                 }
@@ -350,7 +484,7 @@ import path from 'path';
                     currentPage - 1,
                     currentPage,
                     currentPage + 1,
-                    currentPage + 2
+                    currentPage + 2,
                 ];
 
             // tạo pagination
@@ -375,7 +509,7 @@ import path from 'path';
                 }
 
                 // hiển thị và thêm sự kiên
-                paginationArr.forEach(value => {
+                paginationArr.forEach((value) => {
                     if (value > 0 && value <= maxPageNumber) {
                         pageLink.innerText = value;
                         pageLink.setAttribute(
@@ -390,7 +524,7 @@ import path from 'path';
                         // thêm sự kiện
                         clonedNode.childNodes[0].addEventListener(
                             'click',
-                            e => {
+                            (e) => {
                                 e.preventDefault();
                                 scrollUpBtn.click();
 
@@ -399,9 +533,13 @@ import path from 'path';
                                 // hiển thị trang mới
                                 showProducts(tempVal, filtedProducts);
 
-                                paginationArr = paginationArr.map(itemValue => {
-                                    return itemValue + tempVal - currentPage;
-                                });
+                                paginationArr = paginationArr.map(
+                                    (itemValue) => {
+                                        return (
+                                            itemValue + tempVal - currentPage
+                                        );
+                                    }
+                                );
                                 currentPage = tempVal;
 
                                 // hiển thị pagination mới
@@ -419,13 +557,13 @@ import path from 'path';
             };
 
             // thêm sự kiện cho mũi tên trái ( < ) của pagination
-            pagination.children[0].addEventListener('click', e => {
+            pagination.children[0].addEventListener('click', (e) => {
                 e.preventDefault();
                 if (currentPage > minPageNumber) {
                     scrollUpBtn.click();
                     showProducts(currentPage - 1, filtedProducts);
 
-                    paginationArr = paginationArr.map(itemValue => {
+                    paginationArr = paginationArr.map((itemValue) => {
                         return itemValue - 1;
                     });
 
@@ -437,13 +575,13 @@ import path from 'path';
             // thêm sự kiện cho mũi tên phải ( > ) của pagination
             pagination.children[
                 pagination.children.length - 1
-            ].addEventListener('click', e => {
+            ].addEventListener('click', (e) => {
                 e.preventDefault();
                 if (currentPage < maxPageNumber) {
                     scrollUpBtn.click();
                     showProducts(currentPage + 1, filtedProducts);
 
-                    paginationArr = paginationArr.map(itemValue => {
+                    paginationArr = paginationArr.map((itemValue) => {
                         return itemValue + 1;
                     });
 
@@ -478,7 +616,7 @@ import path from 'path';
 
             // hàm lọc sản phẩm
             const filterProducts = () => {
-                filtedProducts = sortedProducts.filter(product => {
+                filtedProducts = sortedProducts.filter((product) => {
                     const colorFilter =
                         currentColor === 'none'
                             ? true
@@ -523,7 +661,7 @@ import path from 'path';
 
             // thêm sự kiện cho các nút sắp xếp
             for (let i = 0; i < sortOptions.length; i++) {
-                sortOptions[i].addEventListener('click', e => {
+                sortOptions[i].addEventListener('click', (e) => {
                     e.preventDefault();
                     sortedProducts = [...products];
                     sortedProducts.sort(sortFunctions[i]);
@@ -539,7 +677,7 @@ import path from 'path';
                             currentPage - 1,
                             currentPage,
                             currentPage + 1,
-                            currentPage + 2
+                            currentPage + 2,
                         ];
                     }
                     showPagination();
@@ -564,7 +702,7 @@ import path from 'path';
                 maxPrice;
 
             // xử lý và thêm sự kiện
-            $('.slider-range-price').each(function() {
+            $('.slider-range-price').each(function () {
                 const min = jQuery(this).data('min'),
                     max = jQuery(this).data('max'),
                     unit = jQuery(this).data('unit'),
@@ -607,12 +745,12 @@ import path from 'path';
                                     currentPage - 1,
                                     currentPage,
                                     currentPage + 1,
-                                    currentPage + 2
+                                    currentPage + 2,
                                 ];
                             }
                             showPagination();
                         });
-                    }
+                    },
                 });
             });
 
@@ -627,14 +765,14 @@ import path from 'path';
                 'orange',
                 'brown',
                 'green',
-                'pupple' // sai chính tả
+                'pupple', // sai chính tả
             ];
 
             // thêm sự kiện cho từng màu
             colorFilters.forEach((filter, index) => {
                 document
                     .querySelector('.color' + (index + 1))
-                    .addEventListener('click', e => {
+                    .addEventListener('click', (e) => {
                         e.preventDefault();
                         currentColor =
                             currentColor === 'none' || currentColor !== filter
@@ -655,7 +793,7 @@ import path from 'path';
                                 currentPage - 1,
                                 currentPage,
                                 currentPage + 1,
-                                currentPage + 2
+                                currentPage + 2,
                             ];
                         }
                         showPagination();
@@ -678,7 +816,7 @@ import path from 'path';
             level2CategoryContainer.classList.add('sub-menu', 'collapse');
             level2Category.href = '#';
 
-            categories.data.forEach(lv1Cate => {
+            categories.data.forEach((lv1Cate) => {
                 level1CategoryContainer.dataset.target = `#category-menu-${lv1Cate.id}`;
                 level1CategoryContainer.classList.add('collapsed');
                 level1Category.innerText = lv1Cate[lang + '_name'];
@@ -692,7 +830,7 @@ import path from 'path';
 
                 const categoryClone = level2CategoryWrap.cloneNode(true);
 
-                categoryClone.addEventListener('click', e => {
+                categoryClone.addEventListener('click', (e) => {
                     e.preventDefault();
                     currentCategoryId =
                         currentCategoryId === 0 ||
@@ -712,7 +850,7 @@ import path from 'path';
                             currentPage - 1,
                             currentPage,
                             currentPage + 1,
-                            currentPage + 2
+                            currentPage + 2,
                         ];
                     }
                     showPagination();
@@ -720,12 +858,12 @@ import path from 'path';
 
                 categoryContainerClone.children[1].appendChild(categoryClone);
 
-                lv1Cate.categories.forEach(lv2Cate => {
+                lv1Cate.categories.forEach((lv2Cate) => {
                     level2Category.innerText = lv2Cate[lang + '_name'];
 
                     const categoryClone = level2CategoryWrap.cloneNode(true);
 
-                    categoryClone.addEventListener('click', e => {
+                    categoryClone.addEventListener('click', (e) => {
                         e.preventDefault();
                         currentCategoryId =
                             currentCategoryId === 0 ||
@@ -747,7 +885,7 @@ import path from 'path';
                                 currentPage - 1,
                                 currentPage,
                                 currentPage + 1,
-                                currentPage + 2
+                                currentPage + 2,
                             ];
                         }
                         showPagination();
@@ -779,12 +917,12 @@ import path from 'path';
                 return brands;
             }, []);
 
-            brandsArr.forEach(brand => {
+            brandsArr.forEach((brand) => {
                 productBrand.innerText = brand;
 
                 const clonedNode = productBrandWrap.cloneNode(true);
 
-                clonedNode.childNodes[0].addEventListener('click', e => {
+                clonedNode.childNodes[0].addEventListener('click', (e) => {
                     e.preventDefault();
                     currentBrand =
                         currentBrand === 'none' || currentBrand !== brand
@@ -803,7 +941,7 @@ import path from 'path';
                             currentPage - 1,
                             currentPage,
                             currentPage + 1,
-                            currentPage + 2
+                            currentPage + 2,
                         ];
                     }
                     showPagination();
@@ -814,7 +952,7 @@ import path from 'path';
 
             document
                 .getElementById('reset-filter')
-                .addEventListener('click', e => {
+                .addEventListener('click', (e) => {
                     e.preventDefault();
 
                     currentMinPrice = minPrice;
@@ -836,7 +974,7 @@ import path from 'path';
                             currentPage - 1,
                             currentPage,
                             currentPage + 1,
-                            currentPage + 2
+                            currentPage + 2,
                         ];
                     }
                     showPagination();
@@ -882,7 +1020,7 @@ import path from 'path';
                     },
                     {
                         sizes: [],
-                        colors: []
+                        colors: [],
                     }
                 );
 
@@ -897,12 +1035,55 @@ import path from 'path';
                 colorOptionsContainer = selectBox.children[3],
                 sizeOptions = sizeOptionsContainer.children[1],
                 colorOptions = colorOptionsContainer.children[1],
-                option = document.createElement('option');
+                option = document.createElement('option'),
+                favoriteBtn = document.getElementById('favoriteBtn'),
+                addToCartBtn = document.getElementById('addToCartBtn'),
+                cartQuantity = document.getElementById('cartQuantity');
+
+            sizeOptionsContainer.style.display = 'none';
+            colorOptionsContainer.style.display = 'none';
+
+            try {
+                const isLikedResponse = await axios.get(
+                    path.resolve('product', 'rated', product.id.toString())
+                );
+
+                if (isLikedResponse.data.rating_level) {
+                    favoriteBtn.classList.add('active');
+                }
+
+                favoriteBtn.addEventListener('click', async () => {
+                    await axios.get(
+                        path.resolve('product', 'rate', product.id.toString())
+                    );
+                });
+            } catch (err) {
+                favoriteBtn.style.display = 'none';
+            }
 
             option.classList.add('option');
 
             let currentSize = options.sizes[0],
-                currentColor = options.colors[0];
+                currentColor = options.colors[0],
+                currentDetailId = -1;
+
+            addToCartBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                if (currentDetailId >= 0 && cartQuantity.value > 0) {
+                    cartResponse = await axios.post(
+                        path.resolve('api', 'cart', 'add'),
+                        {
+                            id: currentDetailId,
+                            quantity: cartQuantity.value,
+                        }
+                    );
+
+                    cart = cartResponse.data;
+
+                    showCart();
+                    cartQuantity.value = 0;
+                }
+            });
 
             const updatePrice = () => {
                 let found = false;
@@ -913,6 +1094,8 @@ import path from 'path';
                     ) {
                         price.innerText = `$${detail.price}`;
                         found = true;
+                        currentDetailId = detail.id;
+                        addToCartBtn.style.display = '';
                         break;
                     }
                 }
@@ -926,76 +1109,82 @@ import path from 'path';
                             price.innerText =
                                 'This product type does not exist !!!';
                     }
+                    currentDetailId = -1;
+                    addToCartBtn.style.display = 'none';
                 }
             };
 
             updatePrice();
-
-            options.sizes.forEach(sizeOption => {
-                switch (lang) {
-                    case 'vi':
-                        option.innerText = `Kích cỡ: ${sizeOption}`;
-                        break;
-                    default:
-                        option.innerText = `Size: ${sizeOption}`;
-                }
-                option.dataset.value = sizeOption;
-
-                const clonedOption = option.cloneNode(true);
-
-                clonedOption.addEventListener('click', e => {
-                    e.preventDefault();
-
-                    currentSize = e.target.dataset.value;
-                    updatePrice();
-                });
-
-                sizeOptions.appendChild(clonedOption);
-            });
-            sizeOptionsContainer.children[0].innerText =
-                sizeOptions.children[0].innerText;
-            sizeOptions.children[0].classList.add('selected');
-
-            options.colors.forEach(colorOption => {
-                switch (lang) {
-                    case 'vi':
-                        option.innerText = `Kích cỡ: ${colorOption}`;
-                        break;
-                    default:
-                        option.innerText = `Size: ${colorOption}`;
-                }
-                option.dataset.value = colorOption;
-
-                const clonedOption = option.cloneNode(true);
-
-                clonedOption.addEventListener('click', e => {
-                    e.preventDefault();
-
-                    currentColor = e.target.dataset.value;
-                    updatePrice();
-                });
-
-                colorOptions.appendChild(clonedOption);
-            });
-            colorOptionsContainer.children[0].innerText =
-                colorOptions.children[0].innerText;
-            colorOptions.children[0].classList.add('selected');
-
             document.getElementById('spinner').style.display = 'none';
+            document.querySelector('.cart-form').style.visibility = 'visible';
+
+            if (options.sizes.length && options.colors.length) {
+                options.sizes.forEach((sizeOption) => {
+                    switch (lang) {
+                        case 'vi':
+                            option.innerText = `Kích cỡ: ${sizeOption}`;
+                            break;
+                        default:
+                            option.innerText = `Size: ${sizeOption}`;
+                    }
+                    option.dataset.value = sizeOption;
+
+                    const clonedOption = option.cloneNode(true);
+
+                    clonedOption.addEventListener('click', (e) => {
+                        e.preventDefault();
+
+                        currentSize = e.target.dataset.value;
+                        updatePrice();
+                    });
+
+                    sizeOptions.appendChild(clonedOption);
+                });
+                sizeOptionsContainer.children[0].innerText =
+                    sizeOptions.children[0].innerText;
+                sizeOptions.children[0].classList.add('selected');
+
+                options.colors.forEach((colorOption) => {
+                    switch (lang) {
+                        case 'vi':
+                            option.innerText = `Kích cỡ: ${colorOption}`;
+                            break;
+                        default:
+                            option.innerText = `Size: ${colorOption}`;
+                    }
+                    option.dataset.value = colorOption;
+
+                    const clonedOption = option.cloneNode(true);
+
+                    clonedOption.addEventListener('click', (e) => {
+                        e.preventDefault();
+
+                        currentColor = e.target.dataset.value;
+                        updatePrice();
+                    });
+
+                    colorOptions.appendChild(clonedOption);
+                });
+                colorOptionsContainer.children[0].innerText =
+                    colorOptions.children[0].innerText;
+                colorOptions.children[0].classList.add('selected');
+                sizeOptionsContainer.style.display = '';
+                colorOptionsContainer.style.display = '';
+            }
         }
 
         // :: Favorite Button Active Code
         const favme = $('.favme');
 
-        favme.on('click', function() {
+        favme.on('click', function () {
             $(this).toggleClass('active');
         });
 
-        favme.on('click touchstart', function() {
+        favme.on('click touchstart', function () {
             $(this).toggleClass('is_animating');
         });
 
-        favme.on('animationend', function() {
+        favme.on('animationend', function () {
             $(this).toggleClass('is_animating');
         });
 
@@ -1005,7 +1194,7 @@ import path from 'path';
         }
 
         // :: PreventDefault a Click
-        $("a[href='#']").on('click', function($) {
+        $("a[href='#']").on('click', function ($) {
             $.preventDefault();
         });
     } catch (err) {

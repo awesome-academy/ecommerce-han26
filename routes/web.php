@@ -25,9 +25,9 @@ Route::middleware('locale')->group(function () {
 
     Route::prefix('/user')->group(function () {
         Route::get('/', 'UserController@index');
-        Route::get('/login', 'Auth\LoginController@showLoginForm');
+        Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login_view');
         Route::post('/login', 'Auth\LoginController@login')->name('login');
-        Route::get('/register', 'Auth\RegisterController@showRegisterForm');
+        Route::get('/register', 'Auth\RegisterController@showRegisterForm')->name('register_view');
         Route::post('/register', 'Auth\RegisterController@register')->name('register');
         Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
     });
@@ -37,5 +37,6 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/product')->group(function () {
         Route::get('/rate/{id}', 'ProductController@rateProduct');
         Route::get('/rated', 'ProductController@getLikedProducts');
+        Route::get('/rated/{id}', 'ProductController@isLikedProduct');
     });
 });

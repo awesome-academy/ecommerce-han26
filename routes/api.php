@@ -18,3 +18,8 @@ Route::get('/products', 'ProductController@getAllProducts');
 Route::get('/product/{id}', 'ProductController@getProduct');
 Route::get('/categories', 'ProductController@getAllCategories');
 Route::get('/ratings', 'ProductController@getLikedQuantity');
+Route::prefix('/cart')->group(function () {
+    Route::post('/add', 'ProductController@addProductToCart');
+    Route::get('/remove/{id}', 'ProductController@removeProductFromCart');
+    Route::get('/get', 'ProductController@getCart');
+});

@@ -1,24 +1,24 @@
-@import 'theme_color';
-@import 'variables';
-@import 'mixin';
-@import 'responsive';
+@import "theme_color";
+@import "variables";
+@import "mixin";
+@import "responsive";
 
 /* [Master Stylesheet v-1.0.0] */
 
 /* :: 1.0 Import Web Fonts */
 
-@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Ubuntu:300,400,500,700');
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Ubuntu:300,400,500,700");
 
 /* :: 2.0 Import All CSS */
 
-@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-@import '../css/classy-nav.min.css';
-@import '../../node_modules/owl.carousel/dist/assets/owl.carousel.css';
-@import '../css/animate.css';
-@import '../../node_modules/magnific-popup/dist/magnific-popup.css';
-@import '../../node_modules/jquery-ui-dist/jquery-ui.min.css';
-@import '../../node_modules/jquery-nice-select/css/nice-select.css';
-@import '../../node_modules/font-awesome/css/font-awesome.min.css';
+@import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "../css/classy-nav.min.css";
+@import "../../node_modules/owl.carousel/dist/assets/owl.carousel.css";
+@import "../css/animate.css";
+@import "../../node_modules/magnific-popup/dist/magnific-popup.css";
+@import "../../node_modules/jquery-ui-dist/jquery-ui.min.css";
+@import "../../node_modules/jquery-nice-select/css/nice-select.css";
+@import "../../node_modules/font-awesome/css/font-awesome.min.css";
 
 /* :: 3.0 Common/Base CSS */
 
@@ -56,7 +56,6 @@ p {
     font-weight: 400;
 }
 
-
 a {
     @include transition(all 500ms ease 0s);
     text-decoration: none;
@@ -87,7 +86,6 @@ img {
     height: auto;
     max-width: 100%;
 }
-
 
 /* Spacing */
 
@@ -270,7 +268,7 @@ img {
 
 @for $i from 1 through 8 {
     .bg-img-#{$i} {
-        background-image: url(/img/bg-img/bg-#{$i}.jpg); 
+        background-image: url(/img/bg-img/bg-#{$i}.jpg);
     }
 }
 
@@ -656,6 +654,9 @@ img {
                                 font-size: 12px;
                             }
                         }
+                        .quantity {
+                            color: $hover-color;
+                        }
                     }
                 }
                 &:hover {
@@ -977,7 +978,7 @@ img {
             color: $hover-color !important;
         }
         &.is_animating {
-            animation: favme-anime .5s;
+            animation: favme-anime 0.5s;
         }
     }
     &:hover {
@@ -1005,14 +1006,14 @@ img {
         -webkit-text-stroke-color: transparent;
     }
     25% {
-        opacity: .6;
+        opacity: 0.6;
         color: $white-color;
         font-size: 15px;
         -webkit-text-stroke-width: 1px;
         -webkit-text-stroke-color: $hover-color;
     }
     75% {
-        opacity: .6;
+        opacity: 0.6;
         color: $white-color;
         font-size: 15px;
         -webkit-text-stroke-width: 1px;
@@ -1225,6 +1226,14 @@ img {
                     color: $hover-color !important;
                 }
             }
+            .product-quantity {
+                border: 1px solid $border-color;
+                border-radius: 0;
+                width: 50px;
+            }
+        }
+        .cart-form {
+            visibility: hidden;
         }
     }
 }
@@ -1348,7 +1357,7 @@ img {
         left: 0;
         top: 0;
         z-index: -5;
-        content: '';
+        content: "";
     }
     .page-title {
         h2 {
